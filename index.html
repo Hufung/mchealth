@@ -637,13 +637,20 @@ H.prototype.v=function(a){a=a.accelerationIncludingGravity;var b;this.i=null!=(b
 function I(a){var b=document.createEvent("CustomEvent");b.initCustomEvent("shake",!0,!0,null);document.body.dispatchEvent(b);J(a);window.setTimeout(function(){this.g=!1}.bind(a),1E3)}function J(a){a.h=NaN;a.j=NaN;a.m=NaN}m("gwd.actions.deviceShake.ShakeHandler",H);}).call(this);
 gwd.actions.gwdPagedeck=gwd.actions.gwdPagedeck||{};gwd.actions.gwdPagedeck.goToPage=function(receiver,pageId,opt_type,opt_duration,opt_easing,opt_direction){gwd.actions.events.getElementById(receiver).goToPage(pageId,opt_type,opt_duration,opt_easing,opt_direction)};</script>
   <script type="text/javascript" gwd-events="handlers">
+    p={"c4":211,"c6":310,"c9":474,"cw2":242,"cw4":483,"sp":225,"mp":313,"lp":393,"p":138,"sc":54,"mc":81,"lc":126,"be":75,"pb":361,"peb":427,"scb":461,"mb":346,"b":245,"ncb":358,"fb":337,"eb":302,"db":434,"mhb":644,"czb":294,"bb":496,"czhb":580,"cs":248,"s":127,};
+    dk={"hco":56,"lw":9,"lt":12,"smt":70,"lmt":94,"m":139,"sc":107,"mc":148,"lc":225,"clt":10,"w":0,"scmt":88,"lcmt":133};
+    sw={"ap":228,"cs":343,"ss":294,"s":137,"mw":351,"scm":279,"lcm":371,"ssm":269,"lsm":359};
+    m={"pc2":216,"pc3":323,"mp":597,"pcp":637,"lp":813,"cn":335,"hn":435,"pn":452,"cnp":347,"hnp":447,"pnp":469,};
+    s={"pcs":128,"b":35,"bbq":54,"ms":70,"ss":59,"kc":11,"ss":93,"zs":103,"gj":37,};
     gwd.auto_Button_1Click = function(event) {
       // GWD Predefined Function
       gwd.actions.gwdPagedeck.goToPage('pagedeck', 'page1_2', 'fade', 1000, 'linear', 'bottom');
+      var kcal = 0;
     };
     gwd.auto_Button_2Click = function(event) {
       // GWD Predefined Function
       gwd.actions.gwdPagedeck.goToPage('pagedeck', 'page1_1', 'fade', 1000, 'linear', 'bottom');
+      var kcal = 0;
     };
     gwd.auto_Gwd_image_5Click = function(event) {
       // GWD Predefined Function
@@ -693,6 +700,8 @@ gwd.actions.gwdPagedeck=gwd.actions.gwdPagedeck||{};gwd.actions.gwdPagedeck.goTo
       // GWD Predefined Function
       gwd.actions.gwdPagedeck.goToPage('pagedeck', 'page1_3', 'none', 1000, 'linear', 'top');
     };
+    // caculate function
+    
   </script>
   <script type="text/javascript" gwd-events="registration">
     // Google Web Designer 中處理事件的支援程式碼
