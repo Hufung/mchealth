@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
             background-color: #f5f5f5;
             margin: 0;
             padding: 20px;
@@ -15,8 +15,23 @@
             text-align: center;
             color: #d32f2f;
             font-size: 2.5em;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        #languageToggle {
+            display: block;
+            margin: 0 auto 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #ffca28;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        #languageToggle:hover {
+            background: #ffb300;
         }
         h2 {
             color: #ffca28;
@@ -109,6 +124,7 @@
 </head>
 <body>
     <h1>McDonald's Calorie Calculator</h1>
+    <button id="languageToggle">Switch to Cantonese (切換到廣東話)</button>
     <div id="menuForm"></div>
     <div id="result">Total Calories: 0 kcal</div>
     <footer>
@@ -117,181 +133,189 @@
     <script>
         const categories = [
             {
-                name: "Burgers (飽類)",
+                name: { en: "Burgers", zh: "飽類" },
                 items: [
-                    { name: "Big Mac", calories: 540 },
-                    { name: "McChicken", calories: 400 },
-                    { name: "Filet-O-Fish", calories: 390 },
-                    { name: "Quarter Pounder with Cheese", calories: 520 },
-                    { name: "Double Cheeseburger", calories: 450 },
-                    { name: "Grilled Chicken Burger", calories: 370 },
-                    { name: "Spicy McChicken", calories: 420 },
-                    { name: "Hamburger", calories: 250 },
-                    { name: "Cheeseburger", calories: 300 },
-                    { name: "Double Big Mac", calories: 740 },
-                    { name: "McSpicy Chicken Burger", calories: 530 },
-                    { name: "Ebi Burger (Shrimp)", calories: 400 },
-                    { name: "Pork Fillet Egg Burger", calories: 380 }
+                    { name: { en: "Big Mac", zh: "巨無霸" }, calories: 540 },
+                    { name: { en: "McChicken", zh: "麥香雞" }, calories: 400 },
+                    { name: { en: "Filet-O-Fish", zh: "麥香魚" }, calories: 390 },
+                    { name: { en: "Quarter Pounder with Cheese", zh: "四盎司牛肉芝士漢堡" }, calories: 520 },
+                    { name: { en: "Double Cheeseburger", zh: "雙層芝士漢堡" }, calories: 450 },
+                    { name: { en: "Grilled Chicken Burger", zh: "燒雞漢堡" }, calories: 370 },
+                    { name: { en: "Spicy McChicken", zh: "辣味麥香雞" }, calories: 420 },
+                    { name: { en: "Hamburger", zh: "漢堡包" }, calories: 250 },
+                    { name: { en: "Cheeseburger", zh: "芝士漢堡" }, calories: 300 },
+                    { name: { en: "Double Big Mac", zh: "雙層巨無霸" }, calories: 740 },
+                    { name: { en: "McSpicy Chicken Burger", zh: "香辣雞腿堡" }, calories: 530 },
+                    { name: { en: "Ebi Burger (Shrimp)", zh: "蝦堡" }, calories: 400 },
+                    { name: { en: "Pork Fillet Egg Burger", zh: "豬柳蛋漢堡" }, calories: 380 }
                 ]
             },
             {
-                name: "Breakfast (早晨拼盤及扭扭粉)",
+                name: { en: "Breakfast", zh: "早晨拼盤及扭扭粉" },
                 items: [
-                    { name: "Hotcakes (2pcs)", calories: 300 },
-                    { name: "Sausage McMuffin", calories: 400 },
-                    { name: "Egg McMuffin", calories: 300 },
-                    { name: "Sausage McMuffin with Egg", calories: 480 },
-                    { name: "Breakfast Wrap", calories: 510 },
-                    { name: "Hash Brown", calories: 140 },
-                    { name: "Twisty Pasta with Chicken", calories: 450 },
-                    { name: "Scrambled Egg Burger", calories: 340 },
-                    { name: "Sausage Egg Twisty Pasta", calories: 470 },
-                    { name: "Big Breakfast (Sausage, Egg, Hash Brown)", calories: 670 },
-                    { name: "Hotcakes with Sausage", calories: 510 },
-                    { name: "Egg and Cheese Burger", calories: 341 }
+                    { name: { en: "Hotcakes (2pcs)", zh: "熱香餅 (2件)" }, calories: 300 },
+                    { name: { en: "Sausage McMuffin", zh: "香腸滿分" }, calories: 400 },
+                    { name: { en: "Egg McMuffin", zh: "蛋滿分" }, calories: 300 },
+                    { name: { en: "Sausage McMuffin with Egg", zh: "香腸蛋滿分" }, calories: 480 },
+                    { name: { en: "Breakfast Wrap", zh: "早餐卷" }, calories: 510 },
+                    { name: { en: "Hash Brown", zh: "薯餅" }, calories: 140 },
+                    { name: { en: "Twisty Pasta with Chicken", zh: "雞肉扭扭粉" }, calories: 450 },
+                    { name: { en: "Scrambled Egg Burger", zh: "炒蛋漢堡" }, calories: 340 },
+                    { name: { en: "Sausage Egg Twisty Pasta", zh: "香腸蛋扭扭粉" }, calories: 470 },
+                    { name: { en: "Big Breakfast (Sausage, Egg, Hash Brown)", zh: "大早餐 (香腸、蛋、薯餅)" }, calories: 670 },
+                    { name: { en: "Hotcakes with Sausage", zh: "香腸熱香餅" }, calories: 510 },
+                    { name: { en: "Egg and Cheese Burger", zh: "蛋芝士漢堡" }, calories: 341 }
                 ]
             },
             {
-                name: "Salads (沙律)",
+                name: { en: "Salads", zh: "沙律" },
                 items: [
-                    { name: "Grilled Chicken Salad", calories: 140 },
-                    { name: "Garden Salad", calories: 35 },
-                    { name: "Caesar Salad with Grilled Chicken", calories: 220 },
-                    { name: "Crispy Chicken Salad", calories: 320 },
-                    { name: "Side Salad", calories: 18 }
+                    { name: { en: "Grilled Chicken Salad", zh: "燒雞沙律" }, calories: 140 },
+                    { name: { en: "Garden Salad", zh: "田園沙律" }, calories: 35 },
+                    { name: { en: "Caesar Salad with Grilled Chicken", zh: "凱撒燒雞沙律" }, calories: 220 },
+                    { name: { en: "Crispy Chicken Salad", zh: "脆雞沙律" }, calories: 320 },
+                    { name: { en: "Side Salad", zh: "小份沙律" }, calories: 18 }
                 ]
             },
             {
-                name: "Desserts (甜品)",
+                name: { en: "Desserts", zh: "甜品" },
                 items: [
-                    { name: "McFlurry with Oreo", calories: 340 },
-                    { name: "Apple Pie", calories: 250 },
-                    { name: "Sundae (Chocolate)", calories: 280 },
-                    { name: "Sundae (Strawberry)", calories: 270 },
-                    { name: "Pineapple Stick", calories: 60 },
-                    { name: "Taro Pie", calories: 260 },
-                    { name: "Red Bean Pie", calories: 240 },
-                    { name: "Matcha Red Bean Layer Cake", calories: 300 },
-                    { name: "McFlurry with KitKat", calories: 350 },
-                    { name: "Mini McFlurry (Oreo)", calories: 170 },
-                    { name: "Ice Cream Cone", calories: 200 },
-                    { name: "Sweet Potato Pie", calories: 250 }
+                    { name: { en: "McFlurry with Oreo", zh: "奧利奧麥旋風" }, calories: 340 },
+                    { name: { en: "Apple Pie", zh: "蘋果批" }, calories: 250 },
+                    { name: { en: "Sundae (Chocolate)", zh: "朱古力新地" }, calories: 280 },
+                    { name: { en: "Sundae (Strawberry)", zh: "士多啤梨新地" }, calories: 270 },
+                    { name: { en: "Pineapple Stick", zh: "菠蘿棒" }, calories: 60 },
+                    { name: { en: "Taro Pie", zh: "芋頭批" }, calories: 260 },
+                    { name: { en: "Red Bean Pie", zh: "紅豆批" }, calories: 240 },
+                    { name: { en: "Matcha Red Bean Layer Cake", zh: "抹茶紅豆層蛋糕" }, calories: 300 },
+                    { name: { en: "McFlurry with KitKat", zh: "KitKat麥旋風" }, calories: 350 },
+                    { name: { en: "Mini McFlurry (Oreo)", zh: "迷你奧利奧麥旋風" }, calories: 170 },
+                    { name: { en: "Ice Cream Cone", zh: "軟雪糕" }, calories: 200 },
+                    { name: { en: "Sweet Potato Pie", zh: "蕃薯批" }, calories: 250 }
                 ]
             },
             {
-                name: "Other (其他)",
+                name: { en: "Other", zh: "其他" },
                 items: [
-                    { name: "French Fries (Small)", calories: 230 },
-                    { name: "French Fries (Medium)", calories: 340 },
-                    { name: "French Fries (Large)", calories: 460 },
-                    { name: "Chicken McNuggets (4pcs)", calories: 170 },
-                    { name: "Chicken McNuggets (6pcs)", calories: 250 },
-                    { name: "Chicken McNuggets (10pcs)", calories: 420 },
-                    { name: "Corn Cup", calories: 90 },
-                    { name: "Mashed Potato", calories: 150 },
-                    { name: "McWings (4pcs)", calories: 280 },
-                    { name: "Rice Fun Bowl with Grilled Chicken", calories: 450 },
-                    { name: "Rice Fun Bowl with Crispy Fish", calories: 470 },
-                    { name: "Cheesy Champignon Toastie", calories: 300 },
-                    { name: "Apple Slices", calories: 40 }
+                    { name: { en: "French Fries (Small)", zh: "薯條 (小份)" }, calories: 230 },
+                    { name: { en: "French Fries (Medium)", zh: "薯條 (中份)" }, calories: 340 },
+                    { name: { en: "French Fries (Large)", zh: "薯條 (大份)" }, calories: 460 },
+                    { name: { en: "Chicken McNuggets (4pcs)", zh: "麥樂雞 (4件)" }, calories: 170 },
+                    { name: { en: "Chicken McNuggets (6pcs)", zh: "麥樂雞 (6件)" }, calories: 250 },
+                    { name: { en: "Chicken McNuggets (10pcs)", zh: "麥樂雞 (10件)" }, calories: 420 },
+                    { name: { en: "Corn Cup", zh: "粟米杯" }, calories: 90 },
+                    { name: { en: "Mashed Potato", zh: "薯蓉" }, calories: 150 },
+                    { name: { en: "McWings (4pcs)", zh: "麥翅 (4件)" }, calories: 280 },
+                    { name: { en: "Rice Fun Bowl with Grilled Chicken", zh: "燒雞飯樂碗" }, calories: 450 },
+                    { name: { en: "Rice Fun Bowl with Crispy Fish", zh: "脆魚飯樂碗" }, calories: 470 },
+                    { name: { en: "Cheesy Champignon Toastie", zh: "芝士蘑菇多士" }, calories: 300 },
+                    { name: { en: "Apple Slices", zh: "蘋果片" }, calories: 40 }
                 ]
             },
             {
-                name: "Drinks (飲品)",
+                name: { en: "Drinks", zh: "飲品" },
                 items: [
-                    { name: "Coca-Cola (Small)", calories: 140 },
-                    { name: "Coca-Cola (Medium)", calories: 210 },
-                    { name: "Sprite (Medium)", calories: 200 },
-                    { name: "Orange Juice (Small)", calories: 110 },
-                    { name: "Hot Chocolate", calories: 250 },
-                    { name: "Soy Milk (Large)", calories: 200 },
-                    { name: "Milk Tea (Medium)", calories: 180 },
-                    { name: "Coffee (Black, Small)", calories: 5 },
-                    { name: "Iced Lemon Tea (Medium)", calories: 90 },
-                    { name: "Fanta (Medium)", calories: 200 },
-                    { name: "Iced Coffee (Small)", calories: 120 },
-                    { name: "Milk (Small)", calories: 100 },
-                    { name: "Iced Chunky Ovaltine", calories: 220 }
+                    { name: { en: "Coca-Cola (Small)", zh: "可口可樂 (小份)" }, calories: 140 },
+                    { name: { en: "Coca-Cola (Medium)", zh: "可口可樂 (中份)" }, calories: 210 },
+                    { name: { en: "Sprite (Medium)", zh: "雪碧 (中份)" }, calories: 200 },
+                    { name: { en: "Orange Juice (Small)", zh: "橙汁 (小份)" }, calories: 110 },
+                    { name: { en: "Hot Chocolate", zh: "熱朱古力" }, calories: 250 },
+                    { name: { en: "Soy Milk (Large)", zh: "豆奶 (大份)" }, calories: 200 },
+                    { name: { en: "Milk Tea (Medium)", zh: "奶茶 (中份)" }, calories: 180 },
+                    { name: { en: "Coffee (Black, Small)", zh: "黑咖啡 (小份)" }, calories: 5 },
+                    { name: { en: "Iced Lemon Tea (Medium)", zh: "凍檸茶 (中份)" }, calories: 90 },
+                    { name: { en: "Fanta (Medium)", zh: "芬達 (中份)" }, calories: 200 },
+                    { name: { en: "Iced Coffee (Small)", zh: "凍咖啡 (小份)" }, calories: 120 },
+                    { name: { en: "Milk (Small)", zh: "牛奶 (小份)" }, calories: 100 },
+                    { name: { en: "Iced Chunky Ovaltine", zh: "凍濃阿華田" }, calories: 220 }
                 ]
             },
             {
-                name: "Condiments (配料)",
+                name: { en: "Condiments", zh: "配料" },
                 items: [
-                    { name: "Ketchup Packet", calories: 15 },
-                    { name: "BBQ Sauce", calories: 45 },
-                    { name: "Sweet & Sour Sauce", calories: 50 },
-                    { name: "Mayonnaise", calories: 90 },
-                    { name: "Salad Dressing (Balsamic)", calories: 60 },
-                    { name: "Honey Mustard Sauce", calories: 60 },
-                    { name: "Spicy Sauce", calories: 40 }
+                    { name: { en: "Ketchup Packet", zh: "番茄醬包" }, calories: 15 },
+                    { name: { en: "BBQ Sauce", zh: "燒烤醬" }, calories: 45 },
+                    { name: { en: "Sweet & Sour Sauce", zh: "甜酸醬" }, calories: 50 },
+                    { name: { en: "Mayonnaise", zh: "蛋黃醬" }, calories: 90 },
+                    { name: { en: "Salad Dressing (Balsamic)", zh: "沙律醬 (香醋)" }, calories: 60 },
+                    { name: { en: "Honey Mustard Sauce", zh: "蜜糖芥末醬" }, calories: 60 },
+                    { name: { en: "Spicy Sauce", zh: "辣醬" }, calories: 40 }
                 ]
             },
             {
-                name: "Happy Meals (開心樂園餐)",
+                name: { en: "Happy Meals", zh: "開心樂園餐" },
                 items: [
-                    { name: "Hamburger Happy Meal (with Small Fries & Juice)", calories: 510 },
-                    { name: "Chicken McNuggets Happy Meal (4pcs, Small Fries & Juice)", calories: 460 },
-                    { name: "Fish Burger Happy Meal (with Small Fries & Milk)", calories: 500 },
-                    { name: "Cheeseburger Happy Meal (with Small Fries & Juice)", calories: 560 }
+                    { name: { en: "Hamburger Happy Meal (with Small Fries & Juice)", zh: "漢堡包樂園餐 (小薯條及果汁)" }, calories: 510 },
+                    { name: { en: "Chicken McNuggets Happy Meal (4pcs, Small Fries & Juice)", zh: "麥樂雞樂園餐 (4件、小薯條及果汁)" }, calories: 460 },
+                    { name: { en: "Fish Burger Happy Meal (with Small Fries & Milk)", zh: "魚堡樂園餐 (小薯條及牛奶)" }, calories: 500 },
+                    { name: { en: "Cheeseburger Happy Meal (with Small Fries & Juice)", zh: "芝士漢堡樂園餐 (小薯條及果汁)" }, calories: 560 }
                 ]
             }
         ];
 
+        let isCantonese = false;
         const form = document.getElementById('menuForm');
-        categories.forEach(category => {
-            const categoryDiv = document.createElement('div');
-            categoryDiv.className = 'category';
-            const h2 = document.createElement('h2');
-            h2.textContent = category.name;
-            categoryDiv.appendChild(h2);
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'item-grid';
-            category.items.forEach(item => {
-                const label = document.createElement('label');
-                label.textContent = `${item.name} (${item.calories} kcal)`;
-                
-                const controlsDiv = document.createElement('div');
-                controlsDiv.className = 'quantity-controls';
-                
-                const minusBtn = document.createElement('button');
-                minusBtn.textContent = '-';
-                minusBtn.disabled = true; // Disabled by default since quantity starts at 0
-                
-                const quantitySpan = document.createElement('span');
-                quantitySpan.className = 'quantity';
-                quantitySpan.textContent = '0';
-                quantitySpan.dataset.name = item.name; // Store item name for reference
-                
-                const plusBtn = document.createElement('button');
-                plusBtn.textContent = '+';
-                
-                controlsDiv.appendChild(minusBtn);
-                controlsDiv.appendChild(quantitySpan);
-                controlsDiv.appendChild(plusBtn);
-                label.appendChild(controlsDiv);
-                gridDiv.appendChild(label);
+        const resultDiv = document.getElementById('result');
+        const footerSmall = document.querySelector('footer small');
+        const languageToggle = document.getElementById('languageToggle');
 
-                plusBtn.addEventListener('click', () => {
-                    let qty = parseInt(quantitySpan.textContent);
-                    qty++;
-                    quantitySpan.textContent = qty;
-                    minusBtn.disabled = qty === 0;
-                    calculateCalories();
-                });
+        function renderMenu() {
+            form.innerHTML = '';
+            categories.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                const h2 = document.createElement('h2');
+                h2.textContent = isCantonese ? category.name.zh : category.name.en;
+                categoryDiv.appendChild(h2);
+                const gridDiv = document.createElement('div');
+                gridDiv.className = 'item-grid';
+                category.items.forEach(item => {
+                    const label = document.createElement('label');
+                    label.textContent = isCantonese ? `${item.name.zh} (${item.name.en}) (${item.calories} kcal)` : `${item.name.en} (${item.calories} kcal)`;
+                    
+                    const controlsDiv = document.createElement('div');
+                    controlsDiv.className = 'quantity-controls';
+                    
+                    const minusBtn = document.createElement('button');
+                    minusBtn.textContent = '-';
+                    minusBtn.disabled = true;
+                    
+                    const quantitySpan = document.createElement('span');
+                    quantitySpan.className = 'quantity';
+                    quantitySpan.textContent = '0';
+                    quantitySpan.dataset.name = item.name.en; // Use English name as unique key
+                    
+                    const plusBtn = document.createElement('button');
+                    plusBtn.textContent = '+';
+                    
+                    controlsDiv.appendChild(minusBtn);
+                    controlsDiv.appendChild(quantitySpan);
+                    controlsDiv.appendChild(plusBtn);
+                    label.appendChild(controlsDiv);
+                    gridDiv.appendChild(label);
 
-                minusBtn.addEventListener('click', () => {
-                    let qty = parseInt(quantitySpan.textContent);
-                    if (qty > 0) {
-                        qty--;
+                    plusBtn.addEventListener('click', () => {
+                        let qty = parseInt(quantitySpan.textContent);
+                        qty++;
                         quantitySpan.textContent = qty;
                         minusBtn.disabled = qty === 0;
                         calculateCalories();
-                    }
+                    });
+
+                    minusBtn.addEventListener('click', () => {
+                        let qty = parseInt(quantitySpan.textContent);
+                        if (qty > 0) {
+                            qty--;
+                            quantitySpan.textContent = qty;
+                            minusBtn.disabled = qty === 0;
+                            calculateCalories();
+                        }
+                    });
                 });
+                categoryDiv.appendChild(gridDiv);
+                form.appendChild(categoryDiv);
             });
-            categoryDiv.appendChild(gridDiv);
-            form.appendChild(categoryDiv);
-        });
+        }
 
         function calculateCalories() {
             let totalCalories = 0;
@@ -299,13 +323,26 @@
             quantities.forEach(quantitySpan => {
                 const qty = parseInt(quantitySpan.textContent) || 0;
                 const itemName = quantitySpan.dataset.name;
-                const item = categories.flatMap(cat => cat.items).find(i => i.name === itemName);
+                const item = categories.flatMap(cat => cat.items).find(i => i.name.en === itemName);
                 if (item) {
                     totalCalories += qty * item.calories;
                 }
             });
-            document.getElementById('result').innerText = `Total Calories: ${totalCalories} kcal`;
+            resultDiv.textContent = isCantonese ? `總卡路里: ${totalCalories} kcal (Total Calories)` : `Total Calories: ${totalCalories} kcal`;
         }
+
+        function updateLanguage() {
+            isCantonese = !isCantonese;
+            languageToggle.textContent = isCantonese ? "Switch to English (切換到英文)" : "Switch to Cantonese (切換到廣東話)";
+            renderMenu();
+            calculateCalories();
+            footerSmall.innerHTML = isCantonese 
+                ? "營養資訊基於標準產品配方和份量計算。實際數值可能因製作、供應商或季節變化而有所不同。<br>(Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.)"
+                : "Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.";
+        }
+
+        languageToggle.addEventListener('click', updateLanguage);
+        renderMenu(); // Initial render in English
     </script>
 </body>
 </html>
