@@ -5,120 +5,121 @@
     <meta charset="UTF-8">
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Neue', 'Noto Sans SC', sans-serif;
+            background: linear-gradient(to bottom, #ffeb3b, #ff9800); /* Yellow to orange gradient */
             margin: 0;
             padding: 20px;
             color: #333;
         }
         h1 {
             text-align: center;
-            color: #d32f2f;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            color: #d32f2f; /* McDonald's red */
+            font-size: 2.8em;
+            margin: 0 0 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
         #languageToggle {
             display: block;
             margin: 0 auto 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            background: #ffca28;
-            color: #333;
+            padding: 12px 25px;
+            font-size: 1.2em;
+            background: #d32f2f;
+            color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: background 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background 0.2s;
         }
         #languageToggle:hover {
-            background: #ffb300;
+            background: #b71c1c;
+            transform: scale(1.05);
         }
         h2 {
-            color: #ffca28;
-            font-size: 1.8em;
+            color: #fff;
+            font-size: 1.6em;
             margin: 20px 0 10px;
-            border-bottom: 2px solid #ffca28;
-            padding-bottom: 5px;
+            padding: 10px;
+            background: #d32f2f;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         #menuForm {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         .category {
-            background: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
         .item-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
         }
         label {
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 1.1em;
-            padding: 10px;
-            background: #fafafa;
-            border-radius: 8px;
-            transition: transform 0.2s, background 0.2s;
+            padding: 12px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
         }
         label:hover {
-            transform: scale(1.02);
-            background: #ffecb3;
+            transform: scale(1.03);
         }
         .quantity-controls {
             display: flex;
             align-items: center;
         }
         .quantity {
-            width: 30px;
+            width: 35px;
             text-align: center;
-            font-size: 1em;
-            margin: 0 10px;
+            font-size: 1.2em;
+            color: #d32f2f;
+            margin: 0 8px;
         }
         button {
-            width: 30px;
-            height: 30px;
-            font-size: 1em;
-            background: #d32f2f;
-            color: #fff;
+            width: 35px;
+            height: 35px;
+            font-size: 1.2em;
+            background: #ffca28; /* McDonald's yellow */
+            color: #333;
             border: none;
-            border-radius: 5px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: background 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background 0.2s, transform 0.2s;
         }
         button:hover {
-            background: #b71c1c;
+            background: #ffb300;
+            transform: scale(1.1);
         }
         button:disabled {
-            background: #ccc;
+            background: #e0e0e0;
+            color: #999;
+            transform: none;
             cursor: not-allowed;
         }
         #result {
             text-align: center;
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #d32f2f;
-            margin: 30px 0;
+            font-size: 2em;
+            color: #fff;
+            background: #d32f2f;
             padding: 15px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+            border-radius: 25px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
         }
         footer {
             text-align: center;
             font-size: 0.9em;
-            color: #666;
+            color: #fff;
             margin-top: 20px;
-        }
-        footer small {
-            display: block;
-            max-width: 800px;
-            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -128,7 +129,7 @@
     <div id="menuForm"></div>
     <div id="result">Total Calories: 0 kcal</div>
     <footer>
-        <small>Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.</small>
+        <small>Nutrition information is based on standard product formulations and serving sizes. Actual values may vary.</small>
     </footer>
     <script>
         const categories = [
@@ -283,7 +284,7 @@
                     const quantitySpan = document.createElement('span');
                     quantitySpan.className = 'quantity';
                     quantitySpan.textContent = '0';
-                    quantitySpan.dataset.name = item.name.en; // Use English name as unique key
+                    quantitySpan.dataset.name = item.name.en;
                     
                     const plusBtn = document.createElement('button');
                     plusBtn.textContent = '+';
@@ -328,7 +329,7 @@
                     totalCalories += qty * item.calories;
                 }
             });
-            resultDiv.textContent = isCantonese ? `總卡路里: ${totalCalories} kcal (Total Calories)` : `Total Calories: ${totalCalories} kcal`;
+            resultDiv.textContent = isCantonese ? `總卡路里: ${totalCalories} kcal` : `Total Calories: ${totalCalories} kcal`;
         }
 
         function updateLanguage() {
@@ -336,9 +337,9 @@
             languageToggle.textContent = isCantonese ? "Switch to English (切換到英文)" : "Switch to Cantonese (切換到廣東話)";
             renderMenu();
             calculateCalories();
-            footerSmall.innerHTML = isCantonese 
-                ? "營養資訊基於標準產品配方和份量計算。實際數值可能因製作、供應商或季節變化而有所不同。<br>(Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.)"
-                : "Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.";
+            footerSmall.textContent = isCantonese 
+                ? "營養資訊基於標準產品配方和份量計算。實際數值可能有所不同。"
+                : "Nutrition information is based on standard product formulations and serving sizes. Actual values may vary.";
         }
 
         languageToggle.addEventListener('click', updateLanguage);
