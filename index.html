@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>McDonald's Calorie Calculator</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #d32f2f;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #ffca28;
+            font-size: 1.8em;
+            margin: 20px 0 10px;
+            border-bottom: 2px solid #ffca28;
+            padding-bottom: 5px;
+        }
+        #menuForm {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .category {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            font-size: 1.1em;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 8px;
+            transition: transform 0.2s, background 0.2s;
+        }
+        label:hover {
+            transform: scale(1.02);
+            background: #ffecb3;
+        }
+        input[type="number"] {
+            width: 50px;
+            padding: 5px;
+            margin-left: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+        input[type="number"]:focus {
+            border-color: #d32f2f;
+            outline: none;
+        }
+        #result {
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #d32f2f;
+            margin: 30px 0;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 20px;
+        }
+        footer small {
+            display: block;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>McDonald's Calorie Calculator</h1>
+    <div id="menuForm"></div>
+    <div id="result">Total Calories: 0 kcal</div>
+    <footer>
+        <small>Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.</small>
+    </footer>
+    <script>
+        const categories = [
+            {
+                name: "Burgers (飽類)",
+                items: [
+                    { name: "Big Mac", calories: 540 },
+                    { name: "McChicken", calories: 400 },
+                    { name: "Filet-O-Fish", calories: 390 },
+                    { name: "Quarter Pounder with Cheese", calories: 520 },
+                    { name: "Double Cheeseburger", calories: 450 },
+                    { name: "Grilled Chicken Burger", calories: 370 },
+                    { name: "Spicy McChicken", calories: 420 },
+                    { name: "Hamburger", calories: 250 },
+                    { name: "Cheeseburger", calories: 300 },
+                    { name: "Double Big Mac", calories: 740 },
+                    { name: "McSpicy Chicken Burger", calories: 530 },
+                    { name: "Ebi Burger (Shrimp)", calories: 400 },
+                    { name: "Pork Fillet Egg Burger", calories: 380 }
+                ]
+            },
+            {
+                name: "Breakfast (早晨拼盤及扭扭粉)",
+                items: [
+                    { name: "Hotcakes (2pcs)", calories: 300 },
+                    { name: "Sausage McMuffin", calories: 400 },
+                    { name: "Egg McMuffin", calories: 300 },
+                    { name: "Sausage McMuffin with Egg", calories: 480 },
+                    { name: "Breakfast Wrap", calories: 510 },
+                    { name: "Hash Brown", calories: 140 },
+                    { name: "Twisty Pasta with Chicken", calories: 450 },
+                    { name: "Scrambled Egg Burger", calories: 340 },
+                    { name: "Sausage Egg Twisty Pasta", calories: 470 },
+                    { name: "Big Breakfast (Sausage, Egg, Hash Brown)", calories: 670 },
+                    { name: "Hotcakes with Sausage", calories: 510 },
+                    { name: "Egg and Cheese Burger", calories: 341 }
+                ]
+            },
+            {
+                name: "Salads (沙律)",
+                items: [
+                    { name: "Grilled Chicken Salad", calories: 140 },
+                    { name: "Garden Salad", calories: 35 },
+                    { name: "Caesar Salad with Grilled Chicken", calories: 220 },
+                    { name: "Crispy Chicken Salad", calories: 320 },
+                    { name: "Side Salad", calories: 18 }
+                ]
+            },
+            {
+                name: "Desserts (甜品)",
+                items: [
+                    { name: "McFlurry with Oreo", calories: 340 },
+                    { name: "Apple Pie", calories: 250 },
+                    { name: "Sundae (Chocolate)", calories: 280 },
+                    { name: "Sundae (Strawberry)", calories: 270 },
+                    { name: "Pineapple Stick", calories: 60 },
+                    { name: "Taro Pie", calories: 260 },
+                    { name: "Red Bean Pie", calories: 240 },
+                    { name: "Matcha Red Bean Layer Cake", calories: 300 },
+                    { name: "McFlurry with KitKat", calories: 350 },
+                    { name: "Mini McFlurry (Oreo)", calories: 170 },
+                    { name: "Ice Cream Cone", calories: 200 },
+                    { name: "Sweet Potato Pie", calories: 250 }
+                ]
+            },
+            {
+                name: "Other (其他)",
+                items: [
+                    { name: "French Fries (Small)", calories: 230 },
+                    { name: "French Fries (Medium)", calories: 340 },
+                    { name: "French Fries (Large)", calories: 460 },
+                    { name: "Chicken McNuggets (4pcs)", calories: 170 },
+                    { name: "Chicken McNuggets (6pcs)", calories: 250 },
+                    { name: "Chicken McNuggets (10pcs)", calories: 420 },
+                    { name: "Corn Cup", calories: 90 },
+                    { name: "Mashed Potato", calories: 150 },
+                    { name: "McWings (4pcs)", calories: 280 },
+                    { name: "Rice Fun Bowl with Grilled Chicken", calories: 450 },
+                    { name: "Rice Fun Bowl with Crispy Fish", calories: 470 },
+                    { name: "Cheesy Champignon Toastie", calories: 300 },
+                    { name: "Apple Slices", calories: 40 }
+                ]
+            },
+            {
+                name: "Drinks (飲品)",
+                items: [
+                    { name: "Coca-Cola (Small)", calories: 140 },
+                    { name: "Coca-Cola (Medium)", calories: 210 },
+                    { name: "Sprite (Medium)", calories: 200 },
+                    { name: "Orange Juice (Small)", calories: 110 },
+                    { name: "Hot Chocolate", calories: 250 },
+                    { name: "Soy Milk (Large)", calories: 200 },
+                    { name: "Milk Tea (Medium)", calories: 180 },
+                    { name: "Coffee (Black, Small)", calories: 5 },
+                    { name: "Iced Lemon Tea (Medium)", calories: 90 },
+                    { name: "Fanta (Medium)", calories: 200 },
+                    { name: "Iced Coffee (Small)", calories: 120 },
+                    { name: "Milk (Small)", calories: 100 },
+                    { name: "Iced Chunky Ovaltine", calories: 220 }
+                ]
+            },
+            {
+                name: "Condiments (配料)",
+                items: [
+                    { name: "Ketchup Packet", calories: 15 },
+                    { name: "BBQ Sauce", calories: 45 },
+                    { name: "Sweet & Sour Sauce", calories: 50 },
+                    { name: "Mayonnaise", calories: 90 },
+                    { name: "Salad Dressing (Balsamic)", calories: 60 },
+                    { name: "Honey Mustard Sauce", calories: 60 },
+                    { name: "Spicy Sauce", calories: 40 }
+                ]
+            },
+            {
+                name: "Happy Meals (開心樂園餐)",
+                items: [
+                    { name: "Hamburger Happy Meal (with Small Fries & Juice)", calories: 510 },
+                    { name: "Chicken McNuggets Happy Meal (4pcs, Small Fries & Juice)", calories: 460 },
+                    { name: "Fish Burger Happy Meal (with Small Fries & Milk)", calories: 500 },
+                    { name: "Cheeseburger Happy Meal (with Small Fries & Juice)", calories: 560 }
+                ]
+            }
+        ];
+
+        const form = document.getElementById('menuForm');
+        categories.forEach(category => {
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'category';
+            const h2 = document.createElement('h2');
+            h2.textContent = category.name;
+            categoryDiv.appendChild(h2);
+            const gridDiv = document.createElement('div');
+            gridDiv.className = 'item-grid';
+            category.items.forEach(item => {
+                const label = document.createElement('label');
+                label.textContent = `${item.name} (${item.calories} kcal): `;
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.name = item.name;
+                input.min = '0';
+                input.value = '0';
+                input.addEventListener('input', calculateCalories);
+                label.appendChild(input);
+                gridDiv.appendChild(label);
+            });
+            categoryDiv.appendChild(gridDiv);
+            form.appendChild(categoryDiv);
+        });
+
+        function calculateCalories() {
+            let totalCalories = 0;
+            categories.forEach(category => {
+                category.items.forEach(item => {
+                    const input = document.querySelector(`input[name="${item.name}"]`);
+                    const quantity = parseInt(input.value) || 0;
+                    totalCalories += quantity * item.calories;
+                });
+            });
+            document.getElementById('result').innerText = `Total Calories: ${totalCalories} kcal`;
+        }
+    </script>
+</body>
+</html>
