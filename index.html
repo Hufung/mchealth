@@ -44,6 +44,7 @@
         label {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             font-size: 1.1em;
             padding: 10px;
             background: #fafafa;
@@ -54,33 +55,33 @@
             transform: scale(1.02);
             background: #ffecb3;
         }
-        input[type="number"] {
-            width: 50px;
-            padding: 5px;
-            margin-left: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        .quantity {
+            width: 30px;
+            text-align: center;
             font-size: 1em;
-            transition: border-color 0.2s;
+            margin: 0 10px;
         }
-        input[type="number"]:focus {
-            border-color: #d32f2f;
-            outline: none;
-        }
-        #calculateButton {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 30px;
-            font-size: 1.2em;
+        button {
+            width: 30px;
+            height: 30px;
+            font-size: 1em;
+            background: #d32f2f;
             color: #fff;
-            background-color: #d32f2f;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background 0.2s;
         }
-        #calculateButton:hover {
-            background-color: #b71c1c;
+        button:hover {
+            background: #b71c1c;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
         #result {
             text-align: center;
@@ -109,7 +110,6 @@
 <body>
     <h1>McDonald's Calorie Calculator</h1>
     <div id="menuForm"></div>
-    <button id="calculateButton">Calculate Total Calories</button>
     <div id="result">Total Calories: 0 kcal</div>
     <footer>
         <small>Nutrition information is based on standard product formulations and serving sizes. Actual values may vary due to preparation, suppliers, or seasonal changes.</small>
@@ -248,30 +248,61 @@
             gridDiv.className = 'item-grid';
             category.items.forEach(item => {
                 const label = document.createElement('label');
-                label.textContent = `${item.name} (${item.calories} kcal): `;
-                const input = document.createElement('input');
-                input.type = 'number';
-                input.name = item.name;
-                input.min = '0';
-                input.value = '0';
-                label.appendChild(input);
+                label.textContent = `${item.name} (${item.calories} kcal)`;
+                
+                const controlsDiv = document.createElement('div');
+                controlsDiv.className = 'quantity-controls';
+                
+                const minusBtn = document.createElement('button');
+                minusBtn.textContent = '-';
+                minusBtn.disabled = true; // Disabled by default since quantity starts at 0
+                
+                const quantitySpan = document.createElement('span');
+                quantitySpan.className = 'quantity';
+                quantitySpan.textContent = '0';
+                quantitySpan.dataset.name = item.name; // Store item name for reference
+                
+                const plusBtn = document.createElement('button');
+                plusBtn.textContent = '+';
+                
+                controlsDiv.appendChild(minusBtn);
+                controlsDiv.appendChild(quantitySpan);
+                controlsDiv.appendChild(plusBtn);
+                label.appendChild(controlsDiv);
                 gridDiv.appendChild(label);
+
+                plusBtn.addEventListener('click', () => {
+                    let qty = parseInt(quantitySpan.textContent);
+                    qty++;
+                    quantitySpan.textContent = qty;
+                    minusBtn.disabled = qty === 0;
+                    calculateCalories();
+                });
+
+                minusBtn.addEventListener('click', () => {
+                    let qty = parseInt(quantitySpan.textContent);
+                    if (qty > 0) {
+                        qty--;
+                        quantitySpan.textContent = qty;
+                        minusBtn.disabled = qty === 0;
+                        calculateCalories();
+                    }
+                });
             });
             categoryDiv.appendChild(gridDiv);
             form.appendChild(categoryDiv);
         });
 
-        const calculateButton = document.getElementById('calculateButton');
-        calculateButton.addEventListener('click', calculateCalories);
-
         function calculateCalories() {
             let totalCalories = 0;
-            categories.forEach(category => {
-                category.items.forEach(item => {
-                    const input = document.querySelector(`input[name="${item.name}"]`);
-                    const quantity = parseInt(input.value) || 0;
-                    totalCalories += quantity * item.calories;
-                });
+            const quantities = document.querySelectorAll('.quantity');
+            quantities.forEach(quantitySpan => {
+                const qty = parseInt(quantitySpan.textContent) || 0;
+                const itemName = quantitySpan.dataset.name;
+                const item = categories.flatMap(cat => cat.items).find(i => i.name === itemName);
+                if (item) {
+                    totalCalories += qty * item.calories;
+                }
             });
             document.getElementById('result').innerText = `Total Calories: ${totalCalories} kcal`;
         }
