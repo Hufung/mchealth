@@ -6,14 +6,14 @@
     <style>
         body {
             font-family: 'Arial Rounded MT Bold', 'Helvetica Neue', 'Noto Sans SC', sans-serif;
-            background: linear-gradient(to bottom, #ffeb3b, #ff9800); /* Yellow to orange gradient */
+            background: linear-gradient(to bottom, #ffeb3b, #ff9800);
             margin: 0;
             padding: 20px;
             color: #333;
         }
         h1 {
             text-align: center;
-            color: #d32f2f; /* McDonald's red */
+            color: #d32f2f;
             font-size: 2.8em;
             margin: 0 0 15px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
@@ -21,8 +21,8 @@
         #languageToggle {
             display: block;
             margin: 0 auto 20px;
-            padding: 12px 25px;
-            font-size: 1.2em;
+            padding: 10px 20px; /* Adjusted for better spacing */
+            font-size: 1.1em; /* Slightly smaller for better fit */
             background: #d32f2f;
             color: #fff;
             border: none;
@@ -30,6 +30,7 @@
             cursor: pointer;
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s, background 0.2s;
+            white-space: nowrap; /* Prevents text wrapping */
         }
         #languageToggle:hover {
             background: #b71c1c;
@@ -86,7 +87,7 @@
             width: 35px;
             height: 35px;
             font-size: 1.2em;
-            background: #ffca28; /* McDonald's yellow */
+            background: #ffca28;
             color: #333;
             border: none;
             border-radius: 50%;
